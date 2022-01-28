@@ -64,7 +64,10 @@ def search(filename, target, guess, wordList):
 
 # Select in the list the farthest word from last guess
 def select(guess, lst):
+    if len(lst) == 1:
+        return lst[0]
     maxdist = 0
+    number = 0
     bestword = ''
     for word in lst:
         # dist = textdistance.bwtrle_ncd.distance(guess, word)
@@ -84,8 +87,8 @@ def select(guess, lst):
 # 
 
 if __name__ == '__main__':
-    filename = "Dict-5757.txt"          # uncomment for english game
-    # filename = "Dict-FR-7980.txt"     # uncomment for french game
+    # filename = "Dict-5757.txt"          # uncomment for english game
+    filename = "Dict-FR-7980.txt"     # uncomment for french game
     found = False
     lst = []
 
