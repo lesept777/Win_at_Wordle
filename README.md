@@ -1,5 +1,5 @@
 # Win_at_Wordle
-Win when playing Wordle
+## Win when playing Wordle
 
 If you are here, it means that you know what Wordle is. Play it here : https://www.powerlanguage.co.uk/wordle/
 
