@@ -23,6 +23,7 @@ def intersection(lst1, lst2):
 # Compute the score of a word
 def score(word, Wordle):
     score = "-----"
+    nomore = []
 
     for i in range(len(word)):
         if Wordle[i] == word[i]:
@@ -33,9 +34,16 @@ def score(word, Wordle):
         if score[j]=='+': continue
         comp = [i for i in range(len(Wordle)) if Wordle.startswith(word[j], i)]
         if comp == []:
-            score  = score[:j]+'-'+score[j+1:]
+            res = '-'
         else:
-            score  = score[:j]+'='+score[j+1:]
+            comp2 = []
+            for i in range(len(comp)):
+                if comp[i] not in nomore:
+                    comp2.append(comp[i])
+            if comp2 != []:
+                res = '='
+                nomore.append(comp2[0])
+                score  = score[:j] + res + score[j+1:]
     return score
 
 # Search words matching a given score
