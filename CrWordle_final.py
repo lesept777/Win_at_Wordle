@@ -54,22 +54,31 @@ def search(filename, target, guess, wordList):
 # 
 
 if __name__ == '__main__':
-    filename = "Dict-5757.txt"
+    filename = "Dict-5757.txt"          # uncomment for english game
+    # filename = "Dict-FR-7980.txt"     # uncomment for french game
     found = False
+    lst = []
 
 # Create the initial list of words    
     wordList = []
     with open(filename) as file:
         Lines = file.readlines()
         for line in Lines:
-            line = line[:-1]
-            wordList.append(line)
+            line = line[:-1].lower().split()
+            for i in range(len(line)):
+                wordList.append(line[i])
         
     word = input ("Enter your initial guess: ")
 # Main loop : search for words fitting the scores, and reduce the search scope
     while not found:
-        s = input ("Enter your score: ")
-        if s == '+++++':
+        s = input ("Enter your score (or 0 if the word was unknown): ")
+        if s == '0':
+            print('A few more suggestions: choose one...')
+            for i in range(min(5,len(lst))):
+                print(lst[i], end = ' ')
+            word = input ("Enter your new guess: ")
+            continue
+        elif s == '+++++':
             print('Congratulations !!!')
             found = True
         elif s == '-----':
