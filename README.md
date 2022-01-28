@@ -25,3 +25,5 @@ to
 
 ## New version
 Use `CrWordle_final_better.py` which finds in less guesses. It chooses the next guess by computing the distance with the previous one and chooses the largest distance in the list of possible candidate words.
+
+At the cost of a dependency: install textdistance (*pip install textdistance*)
