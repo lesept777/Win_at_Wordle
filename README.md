@@ -22,3 +22,6 @@ To play in French (https://wordle.louan.me/), just change the dictionnary file n
 ```filename = "Dict-5757.txt```
 to
 ```filename = "Dict-FR-7980.txt"```
+
+## New version
+Use `CrWordle_final_better.py` which finds in less guesses. It chooses the next guess by computing the distance with the previous one and chooses the largest distance in the list of possible candidate words.
