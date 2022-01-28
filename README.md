@@ -17,3 +17,8 @@ For example : -+==-
 The script suggests a word : play it in Wordle.
 
 Enter Wordle's answer until you find the correct word...
+
+To play in French (https://wordle.louan.me/), just change the dictionnary file name :
+```filename = "Dict-5757.txt```
+to
+```filename = "Dict-FR-7980.txt"```
