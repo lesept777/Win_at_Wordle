@@ -24,6 +24,9 @@ import textdistance
 def intersection(lst1, lst2):
     return list(set(lst1) & set(lst2))
 
+def diversity(word):
+    return len(set(word)) / 5
+
 # Compute the score of a word
 def score(word, Wordle):
     score = "-----"
@@ -74,6 +77,7 @@ def select(guess, lst):
         dist = textdistance.entropy_ncd.distance(guess, word)
         # dist = textdistance.mra.distance(guess, word)
         # dist = textdistance.editex.distance(guess, word)
+        dist *= diversity(word)
         if dist > maxdist:
             maxdist = dist
             bestword = word
@@ -81,14 +85,14 @@ def select(guess, lst):
         if dist == maxdist:
             number += 1
     return bestword
-    
+
 # 
 # Main code
 # 
 
 if __name__ == '__main__':
-    # filename = "Dict-5757.txt"          # uncomment for english game
-    filename = "Dict-FR-7980.txt"     # uncomment for french game
+    filename = "Dict-5757.txt"          # uncomment for english game
+    # filename = "Dict-FR-7980.txt"     # uncomment for french game
     found = False
     lst = []
 
