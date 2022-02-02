@@ -21,8 +21,8 @@ Howto:
 
 import textdistance
 
-def intersection(lst1, lst2):
-    return list(set(lst1) & set(lst2))
+# def intersection(lst1, lst2):
+#     return list(set(lst1) & set(lst2))
 
 def diversity(word):
     return len(set(word)) / 5
@@ -128,5 +128,5 @@ if __name__ == '__main__':
             else:
                 suggest = select(word, lst)
                 print(f'Found {count} matching words --> my suggestion: {suggest}')
-                wordList = intersection(lst, wordList)
+                wordList = lst # intersection(lst, wordList)
                 word = suggest
