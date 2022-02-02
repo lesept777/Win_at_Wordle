@@ -21,9 +21,6 @@ Howto:
 
 import textdistance
 
-# def intersection(lst1, lst2):
-#     return list(set(lst1) & set(lst2))
-
 def diversity(word):
     return len(set(word)) / 5
 
@@ -85,7 +82,7 @@ def select(guess, lst):
         if dist == maxdist:
             number += 1
     return bestword
-
+    
 # 
 # Main code
 # 
@@ -94,7 +91,6 @@ if __name__ == '__main__':
     filename = "Dict-5757.txt"          # uncomment for english game
     # filename = "Dict-FR-7980.txt"     # uncomment for french game
     found = False
-    lst = []
 
 # Create the initial list of words    
     wordList = []
@@ -111,8 +107,8 @@ if __name__ == '__main__':
         s = input ("Enter your score (or 0 if the word was unknown): ")
         if s == '0':
             print('A few more suggestions: choose one...')
-            for i in range(min(5,len(lst))):
-                print(lst[i], end = ' ')
+            for i in range(min(5,len(wordList))):
+                print(wordList[i], end = ' ')
             word = input ("Enter your new guess: ")
             continue
         elif s == '+++++':
@@ -121,12 +117,11 @@ if __name__ == '__main__':
         elif s == '-----':
             print("That wasn't a good guess. Try playing a word with several vowels such as: adieu, about, above...")
         else:
-            count, lst = search(filename, s, word, wordList)
+            count, wordList = search(filename, s, word, wordList)
             if count == 0:
                 import sys
                 sys.exit('no matching word: please try again from the beginning')
             else:
-                suggest = select(word, lst)
+                suggest = select(word, wordList)
                 print(f'Found {count} matching words --> my suggestion: {suggest}')
-                wordList = lst # intersection(lst, wordList)
                 word = suggest
