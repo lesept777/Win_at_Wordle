@@ -100,11 +100,12 @@ if __name__ == '__main__':
             line = line[:-1].lower().split()
             for i in range(len(line)):
                 wordList.append(line[i])
-        
+    
+    print('When asked for the score, enter 0 if the word was unknown \nor you want to change the guess I suggest.')
     word = input ("Enter your initial guess: ")
 # Main loop : search for words fitting the scores, and reduce the search scope
     while not found:
-        s = input ("Enter your score (or 0 if the word was unknown): ")
+        s = input ("Enter your score: ")
         if s == '0':
             print('A few more suggestions: choose one...')
             for i in range(min(5,len(wordList))):
@@ -125,3 +126,8 @@ if __name__ == '__main__':
                 suggest = select(word, wordList)
                 print(f'Found {count} matching words --> my suggestion: {suggest}')
                 word = suggest
+                if count < 6:
+                    print ('Possible words are: ',end = ' ')
+                    for i in range(min(5,len(wordList))):
+                        print(wordList[i], end = ' ')
+                    print()
