@@ -30,3 +30,6 @@ At the cost of a dependency: install textdistance (*pip install textdistance*)
 
 ## Another version (Jan. 31, 2022)
 Added a notion of letter diversity: now the suggestion  favors words with more varied letters (still `CrWordle_final_better.py`).
+
+## Another version (Feb. 3, 2022)
+Added the possibility of choosing another word, when there are up to 5 remaining possibilities. This because today's word was 'shard' and the code proposed 'shark' which was the Wordle a few days ago. In this case, enter 0 for the score then choose your word in the possibilities provided by the code.
