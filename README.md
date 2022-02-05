@@ -35,11 +35,11 @@ Added a notion of letter diversity: now the suggestion  favors words with more v
 Added the possibility of choosing another word, when there are up to 5 remaining possibilities. This because today's word was 'shard' and the code proposed 'shark' which was the Wordle a few days ago. In this case, enter 0 for the score then choose your word in the possibilities provided by the code.
 
 ## Another version (feb. 5, 2022)
-I found the game Absurdle (https://qntm.org/files/absurdle/absurdle.html) a clone of Wordle, more difficult to play because it cheats... Actually, the target word isn't chosen at the beginning of the game and changes depending on your suggestions and their scores, in order to last as long as possible. Game in 6 or 7 is not unusual, game in 4 is quite rare.
+I found the game Absurdle (https://qntm.org/files/absurdle/absurdle.html) a clone of Wordle, more difficult to play because it cheats... Actually, the target word isn't chosen at the beginning of the game and changes depending on your suggestions and their scores, in order to last as long as possible. Game in 6 or 7 is not unusual, game in 5 is quite rare.
 
 I added the possibility of suggesting the new word using a kind of minimax algorithm: 
 * for each initial word in the list of possible guesses, 
 * for each target word in the total list of 5757 words, 
 * minimize the maximum number of guesses necessary to find the target when beginning with the initial word
 
-This may be much longer, as the minimax is used when the list of possible guesses has less than 80 elements. Try it: CrWordle_final_minimax.py. Answer y at the question about playing Absurdle.
+This may be much longer, as the minimax is used when the list of possible guesses has less than 80 elements. Try it: **CrWordle_final_minimax.py**. Answer y at the question about playing Absurdle.
