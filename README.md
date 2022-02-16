@@ -47,6 +47,8 @@ This may take a much longer time, as the minimax is used when the list of possib
 ## Another version (feb. 16, 2022) - maybe the last one
 Another interesting and more challenging game : **Quordle** (https://www.quordle.com/#/). Here, you must find 4 words at the same time, in 9 guesses or less. Enter your guess and quordle answers similarly to Wordle, but for the 4 words.
 
-There is another dependancy: you must install pandas (*pip install pandas*). To play quordle, answer '2' at the first question of the code and then input the 4 answers of quordle separated by a space. Answer in the order upper-left upper-right lower-left lower-right. For example: +---+ ---=- +++++ -----. If the code suggests a word that quordle doesn't recognize, answer 0 as before and choose another word.
+There is another dependancy: you must install pandas (*pip install pandas*). To play quordle, answer '2' at the first question of the code and then input the 4 answers of quordle separated by a space. Answer in the order upper-left upper-right lower-left lower-right. 
+
+For example: +---+ ---=- +++++ -----. If the code suggests a word that quordle doesn't recognize, answer 0 as before and choose another word.
 
 So the last final version is: **CrWordle_final_last.py**: Have fun!
