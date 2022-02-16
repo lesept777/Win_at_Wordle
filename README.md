@@ -43,3 +43,10 @@ I added the possibility of suggesting the new word using a kind of minimax algor
 * minimize the maximum number of guesses necessary to find the target when beginning with the initial word
 
 This may be much longer, as the minimax is used when the list of possible guesses has less than 80 elements. Try it: **CrWordle_final_minimax.py**. Answer y at the question about playing Absurdle.
+
+## Another version (feb. 16, 2022) - maybe the last one
+Another interesting and more challenging game : quordle (https://www.quordle.com/#/). Here, you must find 4 words at the same time, in 9 guesses or less. Enter your guess and quordle answers similarly to Wordle, but for the 4 words.
+
+There is another dependancy: you must install pandas (pip install pandas). To play quordle, answer '2' at the first question of the code and then input the 4 answers of quordle separated by a space. Answer in the order upper-left upper-right lower-left lower-right. If the code suggests a word that quordle doesn't recognize, answer 0 as before and choose another word.
+
+Have fun!
