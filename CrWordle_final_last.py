@@ -21,6 +21,12 @@ import textdistance
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
+#Find the intersection of 2 lists
+def intersection(lst1, lst2):
+    if len(lst1) == 0 or len(lst2) == 0:
+        return []
+    return list(set(lst1) & set(lst2))
+
 # minimax : choose the word that minimizes the maximum number of guesses
 """
 pour chaque mot M1 de la liste :
@@ -30,11 +36,6 @@ pour chaque mot M1 de la liste :
 renvoyer le M1 qui a le minimum, le plus haut dans la liste
     
 """
-def intersection(lst1, lst2):
-    if len(lst1) == 0 or len(lst2) == 0:
-        return []
-    return list(set(lst1) & set(lst2))
-
 def minimax (lst, initial):
     minN = 100
     nlst = len(lst)
@@ -141,6 +142,7 @@ def select(guess, lst):
         #     number += 1
     return bestword
 
+# Main code for playing Wordle & Absurdle
 def findWordle (word, wordList, opt):
 # Main loop : search for words fitting the scores, and reduce the search scope
     found = False
@@ -186,17 +188,21 @@ def findWordle (word, wordList, opt):
                 # Standard suggestion (good for Wordle)
                 else:
                     suggest = select(word, wordList)
-                    print(f'Found {count} matching words --> my suggestion: {suggest}')   
+                    if count == 1:
+                        print(f'The solution is {suggest}')
+                    else:
+                        print(f'Found {count} matching words --> my suggestion: {suggest}')   
                 word = suggest
                 
                 # Print several suggestions when less than 6 possibilities
                 # You can select a different one by inputting 0 when asked for the score
-                if count < 6:
+                if 1 < count < 6:
                     print ('Possible words are: ',end = ' ')
                     for i in range(min(5,len(wordList))):
                         print(wordList[i], end = ' ')
                     print()
-                    
+    
+# Main code for playing Quordle (the strategy is a little bit different)
 def quordle (word, WL):
     scores = pd.DataFrame(columns = ["0", "1","2","3"])
     guesses = [word]
@@ -237,7 +243,7 @@ def quordle (word, WL):
                 nbFound += 1
         if nbFound == 4:
             # Finished!!!
-            print('Congratulations !!!')
+            print(f'Congratulations !!! Found in {nbTrials} guesses.')
             foundAll = True
             continue
         # elif nbFound !=0: print(f'Guess number {nbTrials}: found {nbFound} solutions')
@@ -262,7 +268,7 @@ def quordle (word, WL):
                         word = wList[k]
             guesses.append(word)
             print(f'Found {minN} matching words ---> my suggestion: {word}')
-            if minN < 6: print(f'Other words are: {wList}')
+            if minN < 6 and len(wList) > 1: print(f'Other words are: {wList}')
             
         # Normal guess: provide suggestion
         else:
@@ -291,10 +297,10 @@ def quordle (word, WL):
                     print(f'Found {countInter} matching words --> my suggestion: {suggest}')   
                 word = suggest
                 guesses.append(word)
-            # Intersection is empty
+            # Intersection is empty (should never happen)
             else:
                 import sys
-                sys.exit('no matching word: please try again from the beginning')
+                sys.exit('no matching word: please try again from the beginning, verify your answers')
 
         nbTrials += 1
 # 
@@ -317,8 +323,8 @@ if __name__ == '__main__':
     
     print('Options:')
     print('0 : standard Wordle (hit enter)')
-    print('1 : absurdle')
-    print('2 : quordle')
+    print('1 : Absurdle')
+    print('2 : Quordle')
     opt = input ('Which game are you playing? ')
     
     print('When asked for the score, enter 0 if the word was unknown ')
@@ -329,4 +335,3 @@ if __name__ == '__main__':
         findWordle (word, wordList, opt)
     else:
         quordle (word, wordList)
-        
