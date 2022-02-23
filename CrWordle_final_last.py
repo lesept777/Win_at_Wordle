@@ -243,7 +243,7 @@ def quordle (word, WL):
                 nbFound += 1
         if nbFound == 4:
             # Finished!!!
-            print(f'Congratulations !!! Found in {nbTrials} guesses.')
+            print(f'Congratulations !!! Found in {nbTrials+1} guesses.')
             foundAll = True
             continue
         # elif nbFound !=0: print(f'Guess number {nbTrials}: found {nbFound} solutions')
