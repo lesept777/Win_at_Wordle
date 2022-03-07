@@ -55,3 +55,6 @@ So the last final version is: **CrWordle_final_last.py**: Have fun!
 
 ## The ultimate Wordle battle
 Have you tried **Squable** (https://squabble.me/)? Squabble is a battle royale/Wordle mix, in which you battle a bunch of other players, all of whom are trying to win a series of Wordle-style challenges faster than you. You have health points, which reduce with time, but can be replenished by solving the puzzle correctly. In the end, there can be only one... Use this script to kill all your opponents!
+
+## Another version (Mar. 07, 2022) - never ends, does it?
+A new version, trying to improve Quordle and increase speed in Squable : try CrWordle_new_better.py ...
