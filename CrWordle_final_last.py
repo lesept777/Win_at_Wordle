@@ -142,14 +142,29 @@ def select(guess, lst):
         #     number += 1
     return bestword
 
+def longDistance(lst, previousWord):
+    maxdist = 0
+    bestword = ''
+    for word in lst:
+        # print(word,end=' ')
+        dist = textdistance.entropy_ncd.distance(previousWord, word)
+        # print(dist)
+        if dist > maxdist:
+            maxdist = dist
+            bestword = word
+    return bestword, maxdist
+
 # Main code for playing Wordle & Absurdle
 def findWordle (word, wordList, opt):
 # Main loop : search for words fitting the scores, and reduce the search scope
     found = False
     while not found:
+        previousWord = word
         for letter in word:
             alphabet[ord(letter)-97]='-'
         s = input ("Enter your score: ")
+        if s == '':
+            s = '+++++'
         
         # Unknown word or change suggestion
         if s == '0':
@@ -166,7 +181,7 @@ def findWordle (word, wordList, opt):
 
         # Very bad guess
         elif s == '-----':
-            print("That wasn't a good guess. Try playing a word with several vowels such as: adieu, about, above...")
+            print("That wasn't a good guess. Try playing a word with several vowels such as: \nadieu, about, above, crane, ratio, audio, tears, stare...")
             word = input ("Enter your new guess: ")
 
         # Normal guess: provide suggestion
@@ -190,7 +205,10 @@ def findWordle (word, wordList, opt):
                     suggest = select(word, wordList)
                     if count == 1:
                         print(f'The solution is {suggest}')
+                        found = True
                     else:
+                        if textdistance.entropy_ncd.distance(suggest, previousWord) < 0.1:
+                            suggest, _ = longDistance(wordList, previousWord)
                         print(f'Found {count} matching words --> my suggestion: {suggest}')   
                 word = suggest
                 
@@ -209,12 +227,14 @@ def quordle (word, WL):
     found = [False] * 4
     count = [0] * 4
     wordList = [WL] * 4
+    goodWords = [''] * 4
     inter = WL
     foundAll = False
     nbTrials = 0
-    print('When entering scores, use space as separator')
+    print('When entering scores, use space as separator.')
     
     while not foundAll:
+        previousWord = word
         for letter in word:
             alphabet[ord(letter)-97]='-'
 
@@ -230,17 +250,16 @@ def quordle (word, WL):
             continue
         else:
             s = list(map(str, ans.split()))
-            for i in range(4):
-                if s[i] != '+++++': found[i] = False
             
         scores.loc[len(scores)] = s
-        # print(scores)
         
         nbFound = 0
         for i in range(4):
             if s[i] == '+++++': 
                 found[i] = True
                 nbFound += 1
+                if scores.iloc[nbTrials-1,i] != '+++++':
+                    goodWords[i] = word
         if nbFound == 4:
             # Finished!!!
             print(f'Congratulations !!! Found in {nbTrials+1} guesses.')
@@ -255,12 +274,20 @@ def quordle (word, WL):
                 if not found[i]:
                     wList = WL
                     for j in range(nbTrials+1):
-                        w = guesses[j]
-                        countJ, wList = search(scores.iloc[j,i], w, wList)
-                    # print(f'Word number {i}: found {countJ} possibilities')
-                    # print(wList)
+                        countJ, wList = search(scores.iloc[j,i], guesses[j], wList)
                     if countJ == 0:
-                        print(f"Can't find a guess for word {i}... sorry")
+                        print(f"Can't find a guess for word {i}... searching again...")
+                        wList = []
+                        maxdist = 0
+                        bestword = ''
+                        for i in range(nbTrials+1):
+                            word, distance = longDistance(WL, guesses[i])
+                            wList.append(word)
+                            if distance > maxdist:
+                                maxdist = distance
+                                bestword = word
+                        word = bestword
+                        minN = i
                     elif countJ < minN:
                         minN = countJ
                         k = 0
@@ -274,7 +301,8 @@ def quordle (word, WL):
         else:
             foundOneMore = False
             for i in range(4):
-                count[i], wordList[i] = search(s[i], word, wordList[i])
+                if not found[i]:
+                    count[i], wordList[i] = search(s[i], word, wordList[i])
             # Found one of the wordles?
                 if not found[i] and count[i] == 1:
                     found[i] = True
@@ -282,6 +310,7 @@ def quordle (word, WL):
                     print(f'Solution for Wordle {i} is {suggest}')
                     word = suggest
                     foundOneMore = True
+                    goodWords[i] = word
                     break
                 else:
                     if not found[i]:
@@ -294,6 +323,17 @@ def quordle (word, WL):
             if countInter != 0:
                 if not foundOneMore:
                     suggest = select(word, inter)
+#                    print (f'previousWord = {previousWord}')
+                    if textdistance.entropy_ncd.distance(suggest, previousWord) < 0.1:
+                        suggest, _ = longDistance(inter, previousWord)
+                        # suggest, _ = longDistance(wordList, previousWord)
+                    else:
+                        for w in inter:
+                            for x in goodWords:
+                                if textdistance.entropy_ncd.distance(w,x) < 0.2:
+                                    inter.remove(w)
+                        suggest = inter[0]
+                        if suggest == previousWord and len(inter) > 1: suggest = inter[1]
                     print(f'Found {countInter} matching words --> my suggestion: {suggest}')   
                 word = suggest
                 guesses.append(word)
@@ -325,13 +365,19 @@ if __name__ == '__main__':
     print('0 : standard Wordle (hit enter)')
     print('1 : Absurdle')
     print('2 : Quordle')
+    print('3 : Squabble (blitz)')
     opt = input ('Which game are you playing? ')
     
     print('When asked for the score, enter 0 if the word was unknown ')
     print('or if you want to change the guess I suggest.')
     word = input ("Enter your initial guess: ")
     
-    if opt != '2':
+    if opt == '0' or opt == '1':
         findWordle (word, wordList, opt)
-    else:
+    elif opt == '2':
         quordle (word, wordList)
+    else:
+        print('When entering scores, hit <Enter> for +++++.')
+        while True:
+            findWordle (word, wordList, opt)
+            word = input ("Enter your initial guess: ")
