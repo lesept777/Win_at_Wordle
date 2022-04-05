@@ -146,7 +146,9 @@ def longDistance(lst, previousWord):
     maxdist = 0
     bestword = ''
     for word in lst:
+        # print(word,end=' ')
         dist = textdistance.entropy_ncd.distance(previousWord, word)
+        # print(dist)
         if dist > maxdist:
             maxdist = dist
             bestword = word
@@ -321,14 +323,17 @@ def quordle (word, WL):
             if countInter != 0:
                 if not foundOneMore:
                     suggest = select(word, inter)
+#                    print (f'previousWord = {previousWord}')
                     if textdistance.entropy_ncd.distance(suggest, previousWord) < 0.1:
-                        suggest, _ = longDistance(wordList, previousWord)
+                        suggest, _ = longDistance(inter, previousWord)
+                        # suggest, _ = longDistance(wordList, previousWord)
                     else:
                         for w in inter:
                             for x in goodWords:
                                 if textdistance.entropy_ncd.distance(w,x) < 0.2:
                                     inter.remove(w)
                         suggest = inter[0]
+                        if suggest == previousWord and len(inter) > 1: suggest = inter[1]
                     print(f'Found {countInter} matching words --> my suggestion: {suggest}')   
                 word = suggest
                 guesses.append(word)
